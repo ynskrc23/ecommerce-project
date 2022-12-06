@@ -44,7 +44,7 @@
                     <tbody>
                         @if(count($users) > 0)
                             @foreach($users as $user)
-                                <tr>
+                                <tr id="{{$user->user_id}}">
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
@@ -93,3 +93,22 @@
 </div>
 <!-- /.container-fluid -->
 @include('backend.layout.footer')
+<script>
+    $(document).ready(function () {
+        $('a.list-item-delete').on('click', function (e) {
+            e.preventDefault()
+            let url = $(this).attr('href')
+            if(url !== null){
+                let confirmation = confirm('Bu kaydı silmek istiyormusunuz?');
+                if(confirmation){
+                    axios.delete(url).then(result => {
+                        console.log(result.data);
+                        $("#" + result.data.id).remove();
+                    }).catch(error => {
+                        console.log(error)
+                    })
+                }
+            }
+        })
+    })
+</script>
