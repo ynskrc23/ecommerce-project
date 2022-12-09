@@ -69,7 +69,7 @@
                                                 </span>
                                                 <span class="text">Sil</span>
                                             </a>
-                                            <a href="#" class="btn btn-sm btn-info btn-icon-split">
+                                            <a href="{{ url("/users/$user->user_id/change-password") }}" class="btn btn-sm btn-info btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-lock"></i>
                                                 </span>

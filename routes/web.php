@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::resource('users',UserController::class);
+Route::get('/users/{user}/change-password',[UserController::class,'getPassword']);
+Route::post('/users/{user}/change-password',[UserController::class,'postPassword']);
