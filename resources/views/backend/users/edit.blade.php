@@ -33,14 +33,21 @@
             <form action="{{ url("/users/$user->user_id") }}" method="POST" class="row g-3">
                 @csrf
                 @method("PUT")
+                <input type="hidden" name="user_id" value="{{ $user->user_id }}">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Ad Soyad</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old("name", $user->name) }}">
+                    @error("name")
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="col-md-6">
                     <label for="email" class="form-label">E-posta</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old("email", $user->email) }}">
+                    @error("email")
+                    <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="col-6 mt-3">

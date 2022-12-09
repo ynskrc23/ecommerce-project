@@ -33,22 +33,34 @@
                @csrf
                <div class="col-md-6">
                    <label for="name" class="form-label">Ad Soyad</label>
-                   <input type="text" class="form-control" id="name" name="name">
+                   <input type="text" class="form-control" id="name" name="name" value="{{ old("name") }}">
+                   @error("name")
+                   <span class="text-danger">{{ $message }}</span>
+                   @enderror
                </div>
 
                <div class="col-md-6">
                    <label for="email" class="form-label">E-posta</label>
-                   <input type="email" class="form-control" id="email" name="email">
+                   <input type="text" class="form-control" id="email" name="email" value="{{ old("email") }}">
+                   @error("email")
+                   <span class="text-danger">{{ $message }}</span>
+                   @enderror
                </div>
 
                <div class="col-md-6 mt-3">
                    <label for="password" class="form-label">Şifre </label>
                    <input type="password" class="form-control" id="password" name="password">
+                   @error("password")
+                   <span class="text-danger">{{ $message }}</span>
+                   @enderror
                </div>
 
                <div class="col-md-6 mt-3">
-                   <label for="password2" class="form-label">Şifre Tekrarı</label>
-                   <input type="password" class="form-control" id="password2" name="password2">
+                   <label for="password_confirmation" class="form-label">Şifre Tekrarı</label>
+                   <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                   @error("password")
+                   <span class="text-danger">{{ $message }}</span>
+                   @enderror
                </div>
 
                <div class="col-6 mt-3">
