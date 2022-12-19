@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->returnUrl = "/users";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +44,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+       /*
         $name = $request->get('name');
         $email = $request->get('email');
         $password = $request->get('password');
@@ -54,30 +59,21 @@ class UserController extends Controller
         $user->is_active = $is_active;
 
         $user->save();
+       */
 
-        return Redirect::to("/users");
-    }
+        User::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return "show => " . $id;
+        return Redirect::to($this->returnUrl);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         return view("backend.users.edit",["user" => $user]);
     }
 
@@ -88,36 +84,39 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
+     /*
         $name = $request->get('name');
         $email = $request->get('email');
         $is_admin = $request->get('is_admin',"0");
         $is_active = $request->get('is_active',"0");
 
-        $user = User::find($id);
         $user->name = $name;
         $user->email = $email;
         $user->is_admin = $is_admin;
         $user->is_active = $is_active;
 
         $user->save();
+     */
 
-        return Redirect::to("/users");
+        dd($request->all());
+        $user->update($request->all());
+
+        return Redirect::to($this->returnUrl);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
         $user->delete();
 
-        return response()->json(["message" => "Success", "id" => $id]);
+        return response()->json(["message" => "Success", "id" => $user->user_id]);
     }
 
     public function getPassword(User $user)
@@ -132,6 +131,6 @@ class UserController extends Controller
 
         $user->save();
 
-        return Redirect::to("/users");
+        return Redirect::to($this->returnUrl);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserRequest extends FormRequest
 {
@@ -43,5 +44,14 @@ class UserRequest extends FormRequest
             "password.min" => "Şifre alanı en az 6 karakter olmalıdır",
             "password.confirmed" => "Girilen değerler aynı değildir",
         ];
+    }
+
+    protected function passedValidation()
+    {
+        if($this->request->has('password'))
+        {
+            $password = $this->request->get('password');
+            $this->request->set("password", Hash::make($password));
+        }
     }
 }
