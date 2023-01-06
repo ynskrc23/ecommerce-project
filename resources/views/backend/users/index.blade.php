@@ -75,6 +75,12 @@
                                                 </span>
                                                 <span class="text">Şifre Değiştir</span>
                                             </a>
+                                            <a href="{{ url("/users/$user->user_id/adresses") }}" class="btn btn-sm btn-secondary btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-solid fa-map-pin"></i>
+                                                </span>
+                                                <span class="text">Adreslerim</span>
+                                            </a>
                                         </ul>
                                     </td>
                                 </tr>

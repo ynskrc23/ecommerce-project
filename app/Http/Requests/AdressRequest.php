@@ -28,7 +28,7 @@ class AdressRequest extends FormRequest
             "city" => "required|min:3",
             "district" => "required|min:3",
             "zipcode" => "required|min:3",
-            "address" => "required|min:3",
+            "address" => "required|min:5",
         ];
     }
 

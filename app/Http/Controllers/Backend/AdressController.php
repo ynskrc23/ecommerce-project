@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdressRequest;
+use App\Models\Adress;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class AdressController extends Controller
 {
     public function __construct()
     {
-        $this->returnUrl = "/users/{}/addresses";
+        $this->returnUrl = "/users/{}/adresses";
     }
     /**
      * Display a listing of the resource.
@@ -19,8 +21,8 @@ class AdressController extends Controller
      */
     public function index(User $user)
     {
-        $users = User::all();
-        return view("backend.users.index", ["users" => $users]);
+        $adresses = $user->adresses;
+        return view("backend.adresses.index", ["adresses" => $adresses, "user" => $user]);
     }
 
     /**
@@ -28,9 +30,9 @@ class AdressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+        return view("backend.adresses.create",["user" => $user]);
     }
 
     /**
@@ -39,9 +41,13 @@ class AdressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(User $user, AdressRequest $request)
     {
-        //
+        Adress::create($request->all());
+
+        $this->editReturnUrl($user->user_id);
+
+        return Redirect::to($this->returnUrl);
     }
 
     /**
@@ -61,9 +67,9 @@ class AdressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user, Adress $adress)
     {
-        //
+        return view("backend.adresses.edit",["user" => $user, "adress" => $adress]);
     }
 
     /**
@@ -73,9 +79,15 @@ class AdressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdressRequest $request, User $user, Adress $adress)
     {
-        //
+        $is_default = $request->get("is_default",0);
+
+        $adress->is_default = $is_default;
+        $adress->update($request->all());
+
+        $this->editReturnUrl($user->user_id);
+        return Redirect::to($this->returnUrl);
     }
 
     /**
@@ -84,8 +96,15 @@ class AdressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user, Adress $adress)
     {
-        //
+        $adress->delete();
+
+        return response()->json(["message" => "Success", "id" => $adress->address_id]);
+    }
+
+    private function editReturnUrl($id)
+    {
+        $this->returnUrl = "/users/$id/adresses";
     }
 }
